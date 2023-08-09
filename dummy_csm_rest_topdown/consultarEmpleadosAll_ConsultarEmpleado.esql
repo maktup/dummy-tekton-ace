@@ -27,9 +27,9 @@ CREATE COMPUTE MODULE consultarEmpleadosAll_ConsultarEmpleado
 		DECLARE vIdDep2  CHARACTER;
 		
 		-- REGISTRAR DATOS 'RESPONSE':
-		SET vIpApp      = '1.1.1.1';
+		SET vIpApp      = '1.1.1.2';
 		SET vNombreApp  = 'CSM-Legacy';
-		SET vUsuarioApp = 'CCOTRINA 2023';
+		SET vUsuarioApp = 'CCOTRINA ABC';
 		SET vCodigoApp  = '1';
 		SET vCodigoHttp = '200';
 		SET vMensajeApp = 'Consulta Exitosa';
