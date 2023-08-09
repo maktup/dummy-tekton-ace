@@ -29,19 +29,19 @@ CREATE COMPUTE MODULE consultarEmpleadosAll_ConsultarEmpleado
 		-- REGISTRAR DATOS 'RESPONSE':
 		SET vIpApp      = '1.1.1.1';
 		SET vNombreApp  = 'CSM-Legacy';
-		SET vUsuarioApp = 'CCOTRINA';
+		SET vUsuarioApp = 'CCOTRINA 2023';
 		SET vCodigoApp  = '1';
 		SET vCodigoHttp = '200';
 		SET vMensajeApp = 'Consulta Exitosa';
 		
 		SET vId1     = '001';
-		SET vNombre1 = 'CATHERINE COTRINA 1';
+		SET vNombre1 = 'CATHERINE COTRINA';
 		SET vEdad1   = '40';
 		SET vRol1    = 'ARQUITECTA';
 		SET vIdDep1  = 'D1'; 
 		
 		SET vId2     = '002';
-		SET vNombre2 = 'PABLO PEREZ 1';
+		SET vNombre2 = 'PABLO PEREZ';
 		SET vEdad2   = '40';
 		SET vRol2    = 'PROGRAMADOR';
 		SET vIdDep2  = 'D2'; 
