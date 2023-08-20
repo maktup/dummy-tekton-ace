@@ -1,6 +1,7 @@
 
+
 CREATE COMPUTE MODULE agregarEmpleado_RegistrarEmpleado
-	
+
 	CREATE FUNCTION Main() RETURNS BOOLEAN
 	BEGIN
 		-- CALL CopyMessageHeaders();
@@ -44,15 +45,15 @@ CREATE COMPUTE MODULE agregarEmpleado_RegistrarEmpleado
 		SET vMensajeApp = 'Registro Exitoso - ' || vNombre; 
  	 		
 		CREATE LASTCHILD OF OutputRoot DOMAIN( 'JSON' ); 
-		SET OutputRoot.JSON.Data.auditoria.ipApp      = vIpApp;  
-		SET OutputRoot.JSON.Data.auditoria.nombreApp  = vNombreApp;
-		SET OutputRoot.JSON.Data.auditoria.usuarioApp = vUsuarioApp; 
-		SET OutputRoot.JSON.Data.auditoria.codigoApp  = vCodigoApp;  
-		SET OutputRoot.JSON.Data.auditoria.codigoHttp = vCodigoHttp;   
-		SET OutputRoot.JSON.Data.auditoria.mensajeApp = vMensajeApp;
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.ipApp      = vIpApp;  
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.nombreApp  = vNombreApp;
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.usuarioApp = vUsuarioApp; 
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.codigoApp  = vCodigoApp;  
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.codigoHttp = vCodigoHttp;   
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.mensajeApp = vMensajeApp;
 		
 	    --IMPORTANTE: En ESQL los 'ARREGLOS' inician desde: 1 
-		CREATE FIELD OutputRoot.JSON.Data.listaEmpleados IDENTITY( JSON.Array )listaEmpleados; 
+		CREATE FIELD OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados IDENTITY( JSON.Array )listaEmpleados; 
  
 		RETURN TRUE;
 	END;

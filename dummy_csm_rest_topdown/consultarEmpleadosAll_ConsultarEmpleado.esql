@@ -47,26 +47,26 @@ CREATE COMPUTE MODULE consultarEmpleadosAll_ConsultarEmpleado
 		SET vIdDep2  = 'D2'; 
  	 		
 		CREATE LASTCHILD OF OutputRoot DOMAIN( 'JSON' ); 
-		SET OutputRoot.JSON.Data.auditoria.ipApp      = vIpApp;  
-		SET OutputRoot.JSON.Data.auditoria.nombreApp  = vNombreApp;
-		SET OutputRoot.JSON.Data.auditoria.usuarioApp = vUsuarioApp; 
-		SET OutputRoot.JSON.Data.auditoria.codigoApp  = vCodigoApp;  
-		SET OutputRoot.JSON.Data.auditoria.codigoHttp = vCodigoHttp;  
-		SET OutputRoot.JSON.Data.auditoria.mensajeApp = vMensajeApp;  	
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.ipApp      = vIpApp;  
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.nombreApp  = vNombreApp;
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.usuarioApp = vUsuarioApp; 
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.codigoApp  = vCodigoApp;  
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.codigoHttp = vCodigoHttp;  
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.mensajeApp = vMensajeApp;  	
 		
 		--IMPORTANTE: En ESQL los 'ARREGLOS' inician desde: 1 
-		CREATE FIELD OutputRoot.JSON.Data.listaEmpleados IDENTITY( JSON.Array )listaEmpleados; 
-		SET OutputRoot.JSON.Data.listaEmpleados.item[1].id     = vId1; 
-		SET OutputRoot.JSON.Data.listaEmpleados.item[1].nombre = vNombre1;
-		SET OutputRoot.JSON.Data.listaEmpleados.item[1].edad   = vEdad1;
-		SET OutputRoot.JSON.Data.listaEmpleados.item[1].rol    = vRol1;
-		SET OutputRoot.JSON.Data.listaEmpleados.item[1].idDep  = vIdDep1;
+		CREATE FIELD OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados IDENTITY( JSON.Array )listaEmpleados; 
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[1].id     = vId1; 
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[1].nombre = vNombre1;
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[1].edad   = vEdad1;
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[1].rol    = vRol1;
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[1].idDep  = vIdDep1;
 		
-		SET OutputRoot.JSON.Data.listaEmpleados.item[2].id     = vId2; 
-		SET OutputRoot.JSON.Data.listaEmpleados.item[2].nombre = vNombre2;
-		SET OutputRoot.JSON.Data.listaEmpleados.item[2].edad   = vEdad2;
-		SET OutputRoot.JSON.Data.listaEmpleados.item[2].rol    = vRol2;
-		SET OutputRoot.JSON.Data.listaEmpleados.item[2].idDep  = vIdDep2;		
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[2].id     = vId2; 
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[2].nombre = vNombre2;
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[2].edad   = vEdad2;
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[2].rol    = vRol2;
+		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[2].idDep  = vIdDep2;		
  
 		RETURN TRUE;
 	END;

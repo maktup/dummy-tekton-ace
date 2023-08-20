@@ -12,7 +12,7 @@
       <nodes xmi:type="eflow:FCMSink" xmi:id="OutTerminal.Output_1" location="550,25">
         <translation xmi:type="utility:TranslatableString" key="Output" bundleName="agregarEmpleado" pluginId="dummy_csm_rest_topdown"/>
       </nodes>
-      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="284,24" computeExpression="esql://routine/#agregarEmpleado_RegistrarEmpleado.Main">
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="298,55" computeExpression="esql://routine/#agregarEmpleado_RegistrarEmpleado.Main" computeMode="all">
         <translation xmi:type="utility:ConstantString" string="RegistrarEmpleado"/>
       </nodes>
       <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_1" targetNode="FCMComposite_1_1" sourceNode="InTerminal.Input_1" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
