@@ -9,7 +9,7 @@ nsPrefix="gen_dummy_csm_rest_topdown.msgflow">
 <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/flowAPIgenerated/icons/full/obj16/dummy_csm_rest_topdown.gif"/>
 <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/flowAPIgenerated/icons/full/obj30/dummy_csm_rest_topdown.gif"/>
 <composition>
-<nodes xmi:type="ComIbmWSInput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="25,150" URLSpecifier="/employeeservice*" parseQueryString="true" messageDomainProperty="JSON" faultFormat="JSON">
+<nodes xmi:type="ComIbmWSInput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="25,150" URLSpecifier="/employee-service*" parseQueryString="true" messageDomainProperty="JSON" faultFormat="JSON">
 <translation xmi:type="utility:ConstantString" string="HTTP Input"/>
 </nodes>
 <nodes xmi:type="ComIbmRouteToLabel.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="275,150">
