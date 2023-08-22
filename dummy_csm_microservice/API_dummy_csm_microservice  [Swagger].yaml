@@ -1,7 +1,7 @@
 ---
 swagger: "2.0"
 info:
-  description: "CONTRATO/API DEL MICROSERVICIO NEW: employee-service"
+  description: "CONTRATO/API DEL MICROSERVICIO NEW: dummy-csm-microservice"
   version: "1.0"
   title: "CONTRATO/API PARA LA GESTION DE EMPLEADOS"
   termsOfService: "http://swagger.io/terms/"
@@ -11,7 +11,7 @@ info:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 host: "pe.com.capacitacion"
-basePath: "/employee-service"
+basePath: "/csm-microservice"
 schemes:
 - "http"
 paths:
