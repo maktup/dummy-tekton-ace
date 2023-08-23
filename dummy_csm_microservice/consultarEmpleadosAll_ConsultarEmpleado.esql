@@ -29,7 +29,7 @@ CREATE COMPUTE MODULE consultarEmpleadosAll_ConsultarEmpleado
 		-- REGISTRAR DATOS 'RESPONSE':
 		SET vIpApp      = '1.1.1.2';
 		SET vNombreApp  = 'CSM-Legacy';
-		SET vUsuarioApp = 'MSAMAME www';
+		SET vUsuarioApp = 'MSAMAME ttt';
 		SET vCodigoApp  = '1';
 		SET vCodigoHttp = '200';
 		SET vMensajeApp = 'Consulta Exitosa';
