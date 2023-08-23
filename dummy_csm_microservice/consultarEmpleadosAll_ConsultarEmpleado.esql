@@ -14,59 +14,59 @@ CREATE COMPUTE MODULE consultarEmpleadosAll_ConsultarEmpleado
 		DECLARE vCodigoHttp CHARACTER;
 		DECLARE vMensajeApp CHARACTER;
 		
-		DECLARE vId1     CHARACTER;
+		DECLARE vId1     INTEGER;
 		DECLARE vNombre1 CHARACTER;
-		DECLARE vEdad1   CHARACTER;
+		DECLARE vEdad1   INTEGER;
 		DECLARE vRol1    CHARACTER;
-		DECLARE vIdDep1  CHARACTER;
+		DECLARE vIdDep1  INTEGER;
 		
-		DECLARE vId2     CHARACTER;
+		DECLARE vId2     INTEGER;
 		DECLARE vNombre2 CHARACTER;
-		DECLARE vEdad2   CHARACTER;
+		DECLARE vEdad2   INTEGER;
 		DECLARE vRol2    CHARACTER;
-		DECLARE vIdDep2  CHARACTER;
+		DECLARE vIdDep2  INTEGER;
 		
 		-- REGISTRAR DATOS 'RESPONSE':
 		SET vIpApp      = '1.1.1.2';
 		SET vNombreApp  = 'CSM-Legacy';
-		SET vUsuarioApp = 'MSAMAME2';
+		SET vUsuarioApp = 'MSAMAME';
 		SET vCodigoApp  = '1';
 		SET vCodigoHttp = '200';
 		SET vMensajeApp = 'Consulta Exitosa';
 		
-		SET vId1     = '001';
-		SET vNombre1 = 'CATHERINE COTRINA';
-		SET vEdad1   = '40';
+		SET vId1     = 001;
+		SET vNombre1 = 'CATHERINE COTRINA2';
+		SET vEdad1   = 40;
 		SET vRol1    = 'ARQUITECTA';
-		SET vIdDep1  = 'D1'; 
+		SET vIdDep1  = 1; 
 		
-		SET vId2     = '002';
+		SET vId2     = 002;
 		SET vNombre2 = 'MILKO SAMAMÉ';
-		SET vEdad2   = '40';
+		SET vEdad2   = 40;
 		SET vRol2    = 'PROGRAMADOR';
-		SET vIdDep2  = 'D2'; 
+		SET vIdDep2  = 2; 
  	 		
 		CREATE LASTCHILD OF OutputRoot DOMAIN( 'JSON' ); 
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.ipApp      = vIpApp;  
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.nombreApp  = vNombreApp;
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.usuarioApp = vUsuarioApp; 
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.codigoApp  = vCodigoApp;  
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.codigoHttp = vCodigoHttp;  
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.auditoria.mensajeApp = vMensajeApp;  	
+		SET OutputRoot.JSON.Data.auditoria.ipApp      = vIpApp;  
+		SET OutputRoot.JSON.Data.auditoria.nombreApp  = vNombreApp;
+		SET OutputRoot.JSON.Data.auditoria.usuarioApp = vUsuarioApp; 
+		SET OutputRoot.JSON.Data.auditoria.codigoApp  = vCodigoApp;  
+		SET OutputRoot.JSON.Data.auditoria.codigoHttp = vCodigoHttp;  
+		SET OutputRoot.JSON.Data.auditoria.mensajeApp = vMensajeApp;  	
 		
 		--IMPORTANTE: En ESQL los 'ARREGLOS' inician desde: 1 
-		CREATE FIELD OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados IDENTITY( JSON.Array )listaEmpleados; 
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[1].id     = vId1; 
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[1].nombre = vNombre1;
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[1].edad   = vEdad1;
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[1].rol    = vRol1;
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[1].idDep  = vIdDep1;
+		CREATE FIELD OutputRoot.JSON.Data.listaEmpleados IDENTITY( JSON.Array )listaEmpleados; 
+		SET OutputRoot.JSON.Data.listaEmpleados.item[1].id     = vId1; 
+		SET OutputRoot.JSON.Data.listaEmpleados.item[1].nombre = vNombre1;
+		SET OutputRoot.JSON.Data.listaEmpleados.item[1].edad   = vEdad1;
+		SET OutputRoot.JSON.Data.listaEmpleados.item[1].rol    = vRol1;
+		SET OutputRoot.JSON.Data.listaEmpleados.item[1].idDep  = vIdDep1;
 		
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[2].id     = vId2; 
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[2].nombre = vNombre2;
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[2].edad   = vEdad2;
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[2].rol    = vRol2;
-		SET OutputRoot.JSON.Data.ResponseEmplMsg.listaEmpleados.item[2].idDep  = vIdDep2;		
+		SET OutputRoot.JSON.Data.listaEmpleados.item[2].id     = vId2; 
+		SET OutputRoot.JSON.Data.listaEmpleados.item[2].nombre = vNombre2;
+		SET OutputRoot.JSON.Data.listaEmpleados.item[2].edad   = vEdad2;
+		SET OutputRoot.JSON.Data.listaEmpleados.item[2].rol    = vRol2;
+		SET OutputRoot.JSON.Data.listaEmpleados.item[2].idDep  = vIdDep2;		
  
 		RETURN TRUE;
 	END;
