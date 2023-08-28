@@ -371,23 +371,23 @@ spec:
  
     - name: cpu-limit
       default: 400m
-      description: "MAXIMO DE 'CPU' PERMITIDO EN EL SERVER." 
+      description: "MAXIMO DE 'CPU' PERMITIDO EN EL SERVER" 
       
     - name: cpu-request
       default: 300m
-      description: "MINIMO DE 'CPU' PERMITIDO EN EL SERVER." 
+      description: "MINIMO DE 'CPU' PERMITIDO EN EL SERVER" 
       
     - name: memory-limit
       default: 400Mi
-      description: "MAXIMO DE 'MEMORY' PERMITIDO EN EL SERVER." 
+      description: "MAXIMO DE 'MEMORY' PERMITIDO EN EL SERVER" 
       
     - name: memory-request
       default: 300Mi
-      description: "MINIMO DE 'MEMORY' PERMITIDO EN EL SERVER." 
+      description: "MINIMO DE 'MEMORY' PERMITIDO EN EL SERVER" 
       
     - name: replicas
       default: 1
-      description: "NÚMERO DE REPLICAS PARA LA CREACION DE INSTANCIAS POR 'DEFAULT'." 
+      description: "NUMERO DE REPLICAS PARA LA CREACION DE INSTANCIAS POR 'DEFAULT'" 
       
   steps:
     #PASO#1: 
@@ -402,7 +402,7 @@ spec:
         RUTA_DIRECTORIO_BAR="/$RUTA_COMPARTIDA_BASE/bars"
         VERSION_ACE12_IMAGE="ace-server:latest"
         
-        #'SALIR EN CASO DE ERROR', si un comando dentro del SCRIPT genera un ERROR, el SCRIPT se detendrA inmediatamente Y NO continuara ejecutando los COMANDOS restantes.
+        #'SALIR EN CASO DE ERROR', si un comando dentro del SCRIPT genera un ERROR, el SCRIPT se detendrA inmediatamente y NO continuara ejecutando los COMANDOS restantes.
         set -e
 
         echo "1. ====> UBICACION ACTUAL DENTRO 'DEL CONTENEDOR':"
@@ -621,7 +621,7 @@ spec:
            sleep 20
            echo ""
            
-           echo "16. ====> ACTUALIZANDO 'INTEGRATION-SERVER' CON ÚLTIMA 'IMAGEN MICROSERVICIO': "
+           echo "16. ====> ACTUALIZANDO 'INTEGRATION-SERVER' CON ULTIMA 'IMAGEN MICROSERVICIO': "
            echo "- EJECUTANDO ==> [oc patch IntegrationServer $(params.integration-name)$LABEL -p '{'spec': {'pod': {'containers': {'runtime': {'image': 'image-registry.openshift-image-registry.svc:5000/$(params.ace-namespace)/$(params.integration-name):$(params.integration-tag)'}}}}}' --type=merge -n $(params.ace-namespace)]"
            oc patch IntegrationServer $(params.integration-name)$LABEL -p '{"spec": {"pod": {"containers": {"runtime": {"image": "image-registry.openshift-image-registry.svc:5000/$(params.ace-namespace)/$(params.integration-name):$(params.integration-tag)"}}}}}' --type=merge -n $(params.ace-namespace)
            echo ""
