@@ -10,7 +10,7 @@ metadata:
   name: ace-obtain-repository-sources
   namespace: dummy-tekton-appconnect
 spec:
-  description: "ESTAS TAREAS SON 'TASK' DE 'GIT' PARA TRABAJAR CON REPOSITORIOS UTILIZADOS POR OTRAS 'TASK' EN EL 'PIPELINE'. LA TASK 'GIT-CLONE-HOME' CLONARA UN REPOSITORIO DE LA URL PROPORCIONADA EN EL 'NAMESPACE' DE SALIDA. EL REPOSITORIO SE CLONARA EN LA RAIZ DEL NAMESPACE DE TRABAJO. SE PUEDE CLONAR EN UN SUBDIRECTORIO CONFIGURANDO EL PARAMETRO DEL SUBDIRECTORIO DE ESTA TAREA. ESTA TAREA TAMBIÉN ADMITE PAGOS ESCASOS"
+  description: "ESTAS TAREAS SON 'TASK' DE 'GIT' PARA TRABAJAR CON REPOSITORIOS UTILIZADOS POR OTRAS 'TASK' EN EL 'PIPELINE'. LA TASK 'GIT-CLONE-HOME' CLONARA UN REPOSITORIO DE LA URL PROPORCIONADA EN EL 'NAMESPACE' DE SALIDA. EL REPOSITORIO SE CLONARA EN LA RAIZ DEL NAMESPACE DE TRABAJO. SE PUEDE CLONAR EN UN SUBDIRECTORIO CONFIGURANDO EL PARAMETRO DEL SUBDIRECTORIO DE ESTA TAREA. ESTA TAREA TAMBIEN ADMITE PAGOS ESCASOS"
   params:
     - name: url
       default: ''
@@ -55,7 +55,7 @@ spec:
     - name: sparseCheckoutDirectories
       default: ''
       type: string
-      description: "DEFINE QUÉ PATRONES DE DIRECTORIOS COINCIDIR O EXCLUIR AL REALIZAR UNA COMPROBACION ESCASA"
+      description: "DEFINE QUE PATRONES DE DIRECTORIOS COINCIDIR O EXCLUIR AL REALIZAR UNA COMPROBACION ESCASA"
  
     - name: deleteExisting
       default: 'true'
@@ -542,7 +542,7 @@ spec:
         pwd
         echo "INICIO -------------------------------------->"        
         oc start-build $(params.integration-name) --from-file=./$COMPILADO_BAR --wait=true -n $(params.ace-namespace)
-        echo "TÉRMINO-------------------------------------->"
+        echo "TERMINO-------------------------------------->"
         echo ""
 
         proceso_integration_server(){
