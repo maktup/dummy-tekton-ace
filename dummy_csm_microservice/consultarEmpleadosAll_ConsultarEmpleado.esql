@@ -38,7 +38,7 @@ CREATE COMPUTE MODULE consultarEmpleadosAll_ConsultarEmpleado
 		SET vMensajeApp = 'Consulta Exitosa';
 		
 		SET vId1     = 001;
-		SET vNombre1 = 'CESAR GUERRA';
+		SET vNombre1 = 'CESAR GUERRA ';
 		SET vEdad1   = 40;
 		SET vRol1    = 'ARQUITECT0';
 		SET vIdDep1  = 1; 
