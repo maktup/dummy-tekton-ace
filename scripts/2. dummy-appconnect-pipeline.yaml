@@ -1,0 +1,158 @@
+
+###*******************************************************************************************************************###
+###*** DETALLE: este Script instala el PIPELINE para el FLUJO de TASK, para la AUTOMATIZACIÓN deseada. ***************###
+###*******************************************************************************************************************###
+
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline-build-and-deploy
+  namespace: dummy-tekton-appconnect 
+spec:
+  params:
+    ####################################################### 
+    ### DÓNDE EJECUTAR: IBM APP CONNECT (MICROSERVICIO) ###
+    ####################################################### 
+    - name: nombre-integration-server
+      type: string
+      description: "NOMBRE DEL SERVIDOR DE INTEGRACIÓN PARA CREAR"
+ 
+    - name: nombre-namespace-appconnect
+      type: string
+      description: "NOMBRE DEL NAMESPACE PARA IMPLEMENTAR LOS RECURSOS DE APP-CONNECT"
+
+    ############################################## 
+    ### DÓNDE ENCONTRAR LAS FUENTES PARA CREAR ###
+    ############################################## 
+    - name: url-repositorio-git
+      type: string
+      description: "URL DEL REPOSITORIO GIT QUE CONTIENE LA FUENTE DEL PROYECTO APP-CONNECT PARA DESPLEGAR"
+        
+    - name: nombre-subdirectorio-git
+      type: string
+      description: "NOMBRE DEL SUBDIRECTORIO EXISTENTE DENTRO DEL REPOSITORIO GIT"
+        
+    - name: nombre-repositorio-git
+      type: string
+      description: "NOMBRE DEL REPOSITORIO GIT DE APP-CONNECT PARA IMPLEMENTAR"
+      
+    - name: nombre-proyecto-appconnect
+      type: string
+      description: "NOMBRE DEL PROYECTO DE APP-CONNECT PARA IMPLEMENTAR"
+      
+    - name: branch-repositorio-git
+      type: string
+      description: "NOMBRE DEL BRANCH DONDE ESTÁN LAS FUENTES DE APP-CONNECT EN EL REPOSITORIO GIT"
+  
+    ###############################################################################################################################################
+    ### PARA OTRAS OPCIONES DE 'IMAGENES' DE APP-CONNECT: #########################################################################################
+    ### https://www.ibm.com/docs/en/app-connect/containers_cd?topic=obtaining-app-connect-enterprise-server-image-from-cloud-container-registry ###
+    ###############################################################################################################################################
+    - name: version-image-appconnect
+      type: string
+      default: "12.0"
+      
+    - name: licencia-image-appconnect
+      type: string
+      default: "L-MSST-58UM6D"
+      
+    - name: ruta-image-appconnect
+      type: string
+      default: "image-registry.openshift-image-registry.svc:5000/dummy-tekton-appconnect/ace-server:latest"
+  
+    - name: tipo-licencia-appconnect
+      type: string
+      default: "CloudPakForIntegrationNonProductionFREE"
+      
+    - name: tipo-despliegue-servidor
+      type: string
+      default: "3"
+  
+  #----------------------------------------------------------------------------------------------------------------------------------------------#
+  tasks:
+    #pipe-obtener-fuentes-repositorio: 
+    - name: pipe-obtener-fuentes-repositorio
+      taskRef:
+        kind: Task
+        name: ace-obtain-repository-sources
+      params:
+        - name: url
+          value: "$(params.url-repositorio-git)"
+        - name: subdirectory
+          value: "$(params.nombre-subdirectorio-git)"
+        - name: repositoryname
+          value: "$(params.nombre-repositorio-git)"
+          
+      workspaces:
+        - name: compartido
+          #REFERENCIA:  
+          workspace: workspace-pipeline
+
+    #pipe-generar-archivo-bar: 
+    - name: pipe-generar-archivo-bar
+      taskRef:
+        kind: Task
+        name: ace-generate-bar-file
+      params:
+        - name: ace-project-name
+          value: "$(params.nombre-proyecto-appconnect)"
+        - name: ace-namespace
+          value: "$(params.nombre-namespace-appconnect)"
+      runAfter:
+        ### SE REQUIERE CARGAR DEL 'GIT-REPOSITORY', PARA PODER COMPILAR EL PROYECTO 'APP-CONNECT' EN UN .BAR ###
+        - pipe-obtener-fuentes-repositorio  
+      workspaces:
+        - name: compartido
+          #REFERENCIA:  
+          workspace: workspace-pipeline
+          
+  finally:
+    - name: pipe-despliegue-server
+      taskRef:
+        name: ace-create-integration-or-runtime-server
+      params:
+        ###-------------------------------------------------------------###
+        ### DETALLES PARA LA CREACIÓN DEL: 'INTEGRATION/RUNTIME SERVER' ###
+        ###-------------------------------------------------------------###
+        - name:  integration-name
+          value: "$(params.nombre-integration-server)"
+          
+        - name:  ace-namespace
+          value: "$(params.nombre-namespace-appconnect)"
+          
+        - name:  ace-server-version
+          value: "$(params.version-image-appconnect)"
+          
+        - name:  ace-server-license
+          value: "$(params.licencia-image-appconnect)"
+ 
+        - name:  ace-server-base-image
+          value: "$(params.ruta-image-appconnect)"
+          
+        - name:  ace-type-licence
+          value: "$(params.tipo-licencia-appconnect)"
+          
+        - name:  bar-file-location
+          value: "$(tasks.pipe-generar-archivo-bar.results.folder)"
+          
+        - name:  integration-tag
+          value: "$(tasks.pipe-obtener-fuentes-repositorio.results.commit)"
+          
+        - name:  deployment-server
+          value: "$(params.tipo-despliegue-servidor)"
+      when:
+        ###--------------------------------------------------###
+        ### NO EJECUTAR SI LAS TAREAS ANTERIORES HAN FALLADO ###
+        ###--------------------------------------------------###
+        - input: "$(tasks.status)"
+          operator: notin
+          values:
+            - "Failed"
+      workspaces:
+        - name: compartido
+          #REFERENCIA:
+          workspace: workspace-pipeline
+
+  workspaces:
+  - name: workspace-pipeline
+

@@ -1,0 +1,134 @@
+
+###*******************************************************************************************************************###
+###*** DETALLE: este Script instala todos los: RECURSOS, PERMISOS, HABILITACIONES que son BASE para poder trabajar ***###
+###*** la AUTOMATIZACIÓN con OPENSHIFT-PIPELINE (TEKTON). Ese se debe EJECUTAR antes que nada. ***********************###
+###*******************************************************************************************************************###
+
+#EL PVC NO SE ELIMINARÁ SI NO SE TIENE TODAS LAS REFERENCIAS ELIMINARDAS INCLUYENDO EL DEL 'INTEGRATION-SERVERs': 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: source-pvc-pipe
+  namespace: dummy-tekton-appconnect
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+
+---
+
+#WORKAROUND: INSTALAR ANTES DE CUALQUIER EJECUCIÓN PARA TENER EL 'IMAGE-STREAM' DE LA IMAGE DE 'ACE12' EN OPENSHIFT:
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: ace-server
+  namespace: dummy-tekton-appconnect
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+  - name: latest
+    from:
+      kind: DockerImage
+      #'REPOSITORIO DE IMÁGENES' DE 'APP CONNECT': https://www.ibm.com/docs/en/app-connect/containers_cd?topic=obtaining-app-connect-enterprise-server-image-from-cloud-container-registry
+      #[ENTERPRISE SERVER IMAGE]: 
+      #name: cp.icr.io/cp/appc/ace-server-prod@sha256:246828d9f89c4ed3a6719cd3e4b71b1dec382f848c9bf9c28156f78fa05bc4e7
+      #[DEVELOPERS SERVER IMAGE]:
+      name: icr.io/appc-dev/ace-server@sha256:a41f7501fe4025d2705bcabf1ad2ff523bcaf9ec263b98054501de1fc0cf5f62
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pipeline-deployer-aceflows-role
+  namespace: dummy-tekton-appconnect
+rules:
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["list", "get"]
+    
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["list", "get", "create", "update", "delete"]
+    
+  - apiGroups: [""]
+    resources: ["pods/attach"]
+    verbs: ["list", "get", "create", "update", "delete"]
+    
+  - apiGroups: [""]
+    resources: ["pods","secrets"]
+    verbs: ["list", "get", "create", "update", "delete"]
+ 
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["list", "get", "create", "update", "delete"]
+
+  - apiGroups: ["image.openshift.io"]
+    resources: ["imagestreams","imagestreams/import"]
+    verbs: ["list", "get", "patch", "create", "update", "delete"]
+ 
+  - apiGroups: ["image.openshift.io"]
+    resources: ["imagestreamtags"]
+    verbs: ["list", "get", "create", "update", "delete"]
+    
+  - apiGroups: ["appconnect.ibm.com"]
+    resources: ["configurations","integrationservers","integrationruntimes"]
+    verbs: ["list", "get", "patch", "create", "update", "delete"]
+
+  - apiGroups: ["build.openshift.io"]
+    resources: ["builds", "buildconfigs", "buildconfigs/instantiatebinary"]
+    verbs: ["list", "get", "watch", "patch", "create", "update", "delete"] 
+
+  - apiGroups: ["security.openshift.io"]
+    resources: ["securitycontextconstraints", "securitycontextconstraints/fake"]
+    verbs: ["get", "list", "watch", "create", "update", "delete", "use"]
+
+--- 
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: pipeline-deployer-aceflows-rolebinding
+  namespace: dummy-tekton-appconnect
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name:  pipeline-deployer-aceflows-role
+subjects:
+  - kind: ServiceAccount
+    name: pipeline
+    namespace: dummy-tekton-appconnect
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  finalizers:
+  - kubernetes.io/iam.security.ibm.com
+  name: edit
+  namespace: dummy-tekton-appconnect
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+subjects:
+- kind: ServiceAccount
+  name: pipeline
+  namespace: dummy-tekton-appconnect
+
+---
+
+#CONFIGURACIÓN DEL 'PASSWORD' DE ACCESO EN EL 'WEBHOOKS' DE GITHUB:
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-interceptor-secret
+  namespace: dummy-tekton-appconnect
+type: Opaque
+stringData:
+  secretToken: "12345678"
+

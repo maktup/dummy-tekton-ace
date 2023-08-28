@@ -1,0 +1,173 @@
+
+###*********************************************************************************************************************###
+###** DETALLE: este Script instala todas las RECURSOS de TEKTON utilizados para la ejecución en modalidad AUTOMÁTICA. **###
+###** A esto se les denomina TRIGGERs **********************************************************************************###
+###*********************************************************************************************************************###
+
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: trig-dummy-micro-01
+  namespace: dummy-tekton-appconnect
+spec:
+  serviceAccountName: pipeline
+  bindings:
+    - ref: trig-bind-dummy-micro-01
+  template:
+    ref: trig-temp-dummy-micro-01
+    
+---
+
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: trig-bind-dummy-micro-01
+  namespace: dummy-tekton-appconnect
+spec:
+  params:
+  - name: url-repositorio-git
+    value: $(body.repository.url)
+    
+  - name: nombre-repositorio-git
+    value: $(body.repository.name)
+    
+  - name: branch-repositorio-git
+    value: $(body.head_commit.id)
+
+---
+
+# IMPORTANTE: SE DEBE 'PERSONALIZAR' EN EL 'PipelineRun', LOS CAMPOS CON LOS VALORES 'BASE' PARA LA AUTOMATIZACIÓN. ESTOS SERÁN LOS MISMOS
+# UTILIZADOS AL EJECUTAR EL COMANDO: [tkn pipeline start ...] & DEBEN SER 'PERSONALIZADOS' POR CADA 'MICROSERVICIO'.
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: trig-temp-dummy-micro-01
+  namespace: dummy-tekton-appconnect
+spec:
+  params:
+  - name: nombre-integration-server
+    description: "NOMBRE DE SERVIDOR DE INTEGRACION DE IBM APP CONNECT"
+    default: "csm-microservicio"
+    
+  - name: nombre-namespace-appconnect
+    description: "NOMBRE DEL NAMESPACE DONDE ESTA DESPLEGADO EL FLUJO DE APP CONNECT"
+    default: "dummy-tekton-appconnect"
+    
+  - name: nombre-proyecto-appconnect
+    description: "NOMBRE DEL PROYECTO DE: IBM APP CONNECT"
+    default: "dummy_csm_microservice"
+  
+  - name: url-repositorio-git
+    description: "URL DEL REPOSITORIO GIT DONDE ESTA LA FUENTE GUARDADA"
+    default: "https://github.com/maktup/dummy-tekton-ace.git"
+  
+  - name: nombre-subdirectorio-git
+    description: "NOMBRE DEL SUBDIRECTORIO EXISTENTE DENTRO DEL REPOSITORIO GIT"
+    default: "dummy_csm_microservice"
+  
+  - name: nombre-repositorio-git
+    description: "NOMBRE DEL REPOSITORIO GIT PARA EL DESPLIEGUE"
+    default: "dummy-tekton-ace"
+    
+  - name: branch-repositorio-git
+    description: "NOMBRE DE RAMA USADA EN GITHUB"
+    default: "main"
+  
+  - name: licencia-image-appconnect
+    description: "NUMERO DE LICENCIA UTILIZADA DE: IBM APP CONNECT"
+    default: "L-APEH-CJUCNR"
+ 
+  - name: ruta-image-appconnect
+    description: "RUTA DE IMAGEN (ENDPOINT)"
+    default: "docker.io/maktup/ibm-appconnect-12:latest"
+ 
+  - name: tipo-licencia-appconnect
+    description: "TIPO DE LICENCIA UTILIZADA"
+    default: "CloudPakForIntegrationNonProductionFREE"
+ 
+  - name: version-image-appconnect
+    description: "VERSION DE IMAGEN DE: IBM APP CONNECT"
+    default: "12.0.7.0-r3"
+
+  - name: tipo-despliegue-servidor
+    description: "OPCION DE DESPLIEGUE (INTEGRATION, RUNTIME) SERVER"
+    default: "3"
+ 
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1     
+    kind: PipelineRun 
+    metadata:
+      generateName: build-deploy-$(tt.params.nombre-repositorio-git)-
+      namespace: dummy-tekton-appconnect 
+    spec:
+      params:
+      - name: url-repositorio-git
+        value: $(tt.params.url-repositorio-git)
+        
+      - name: nombre-repositorio-git
+        value: $(tt.params.nombre-repositorio-git)
+        
+      - name: branch-repositorio-git
+        value: $(tt.params.branch-repositorio-git)
+ 
+      - name: nombre-integration-server
+        value: $(tt.params.nombre-integration-server)
+        
+      - name: nombre-namespace-appconnect
+        value: $(tt.params.nombre-namespace-appconnect)
+      
+      - name: nombre-proyecto-appconnect
+        value: $(tt.params.nombre-proyecto-appconnect)
+ 
+      - name: nombre-subdirectorio-git
+        value: $(tt.params.nombre-subdirectorio-git)
+      
+      - name: licencia-image-appconnect
+        value: $(tt.params.licencia-image-appconnect)
+      
+      - name: ruta-image-appconnect
+        value: $(tt.params.ruta-image-appconnect)
+        
+      - name: tipo-licencia-appconnect
+        value: $(tt.params.tipo-licencia-appconnect)
+        
+      - name: version-image-appconnect
+        value: $(tt.params.version-image-appconnect)
+      
+      pipelineRef:
+        name: pipeline-build-and-deploy
+        
+      serviceAccountName: pipeline
+      
+      workspaces:
+      - name: workspace-pipeline
+        persistentVolumeClaim:
+          claimName: source-pvc-pipe
+
+---
+
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: listener-dummy-micro-01
+  namespace: dummy-tekton-appconnect
+spec:
+  serviceAccountName: pipeline
+  triggers:
+    - triggerRef: trig-dummy-micro-01
+
+---
+
+##EL 'SERVICE' SERÁ AUTOGENERADO SIEMPRE QUE SE DECLARE CON EL MISMO NOMBRE 
+##DEL: 'EventListener' CON EL: 'el-' POR DELANTE. 
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: el-listener-dummy-micro-01
+  namespace: dummy-tekton-appconnect
+spec:
+  to:
+    kind: Service
+    name: el-listener-dummy-micro-01
+  port:
+    targetPort: http-listener
