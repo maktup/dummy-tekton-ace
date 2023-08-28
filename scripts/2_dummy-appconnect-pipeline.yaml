@@ -1,6 +1,6 @@
 
 ###*******************************************************************************************************************###
-###*** DETALLE: este Script instala el PIPELINE para el FLUJO de TASK, para la AUTOMATIZACIÓN deseada. ***************###
+###*** DETALLE: este Script instala el PIPELINE para el FLUJO de TASK, para la AUTOMATIZACION deseada. ***************###
 ###*******************************************************************************************************************###
 
 apiVersion: tekton.dev/v1beta1
@@ -11,18 +11,18 @@ metadata:
 spec:
   params:
     ####################################################### 
-    ### DÓNDE EJECUTAR: IBM APP CONNECT (MICROSERVICIO) ###
+    ### DONDE EJECUTAR: IBM APP CONNECT (MICROSERVICIO) ###
     ####################################################### 
     - name: nombre-integration-server
       type: string
-      description: "NOMBRE DEL SERVIDOR DE INTEGRACIÓN PARA CREAR"
+      description: "NOMBRE DEL SERVIDOR DE INTEGRACION PARA CREAR"
  
     - name: nombre-namespace-appconnect
       type: string
       description: "NOMBRE DEL NAMESPACE PARA IMPLEMENTAR LOS RECURSOS DE APP-CONNECT"
 
     ############################################## 
-    ### DÓNDE ENCONTRAR LAS FUENTES PARA CREAR ###
+    ### DONDE ENCONTRAR LAS FUENTES PARA CREAR ###
     ############################################## 
     - name: url-repositorio-git
       type: string
@@ -42,7 +42,7 @@ spec:
       
     - name: branch-repositorio-git
       type: string
-      description: "NOMBRE DEL BRANCH DONDE ESTÁN LAS FUENTES DE APP-CONNECT EN EL REPOSITORIO GIT"
+      description: "NOMBRE DEL BRANCH DONDE ESTAN LAS FUENTES DE APP-CONNECT EN EL REPOSITORIO GIT"
   
     ###############################################################################################################################################
     ### PARA OTRAS OPCIONES DE 'IMAGENES' DE APP-CONNECT: #########################################################################################
@@ -112,7 +112,7 @@ spec:
         name: ace-create-integration-or-runtime-server
       params:
         ###-------------------------------------------------------------###
-        ### DETALLES PARA LA CREACIÓN DEL: 'INTEGRATION/RUNTIME SERVER' ###
+        ### DETALLES PARA LA CREACION DEL: 'INTEGRATION/RUNTIME SERVER' ###
         ###-------------------------------------------------------------###
         - name:  integration-name
           value: "$(params.nombre-integration-server)"
