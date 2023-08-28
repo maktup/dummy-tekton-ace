@@ -1,10 +1,10 @@
 
 ###*******************************************************************************************************************###
 ###*** DETALLE: este Script instala todos los: RECURSOS, PERMISOS, HABILITACIONES que son BASE para poder trabajar ***###
-###*** la AUTOMATIZACIÓN con OPENSHIFT-PIPELINE (TEKTON). Ese se debe EJECUTAR antes que nada. ***********************###
+###*** la AUTOMATIZACION con OPENSHIFT-PIPELINE (TEKTON). Ese se debe EJECUTAR antes que nada. ***********************###
 ###*******************************************************************************************************************###
 
-#EL PVC NO SE ELIMINARÁ SI NO SE TIENE TODAS LAS REFERENCIAS ELIMINARDAS INCLUYENDO EL DEL 'INTEGRATION-SERVERs': 
+#EL PVC NO SE ELIMINARA SI NO SE TIENE TODAS LAS REFERENCIAS ELIMINARDAS INCLUYENDO EL DEL 'INTEGRATION-SERVERs': 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -19,7 +19,7 @@ spec:
 
 ---
 
-#WORKAROUND: INSTALAR ANTES DE CUALQUIER EJECUCIÓN PARA TENER EL 'IMAGE-STREAM' DE LA IMAGE DE 'ACE12' EN OPENSHIFT:
+#WORKAROUND: INSTALAR ANTES DE CUALQUIER EJECUCION PARA TENER EL 'IMAGE-STREAM' DE LA IMAGE DE 'ACE12' EN OPENSHIFT:
 apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
@@ -32,7 +32,7 @@ spec:
   - name: latest
     from:
       kind: DockerImage
-      #'REPOSITORIO DE IMÁGENES' DE 'APP CONNECT': https://www.ibm.com/docs/en/app-connect/containers_cd?topic=obtaining-app-connect-enterprise-server-image-from-cloud-container-registry
+      #'REPOSITORIO DE IMAGENES' DE 'APP CONNECT': https://www.ibm.com/docs/en/app-connect/containers_cd?topic=obtaining-app-connect-enterprise-server-image-from-cloud-container-registry
       #[ENTERPRISE SERVER IMAGE]: 
       #name: cp.icr.io/cp/appc/ace-server-prod@sha256:246828d9f89c4ed3a6719cd3e4b71b1dec382f848c9bf9c28156f78fa05bc4e7
       #[DEVELOPERS SERVER IMAGE]:
@@ -122,7 +122,7 @@ subjects:
 
 ---
 
-#CONFIGURACIÓN DEL 'PASSWORD' DE ACCESO EN EL 'WEBHOOKS' DE GITHUB:
+#CONFIGURACION DEL 'PASSWORD' DE ACCESO EN EL 'WEBHOOKS' DE GITHUB:
 apiVersion: v1
 kind: Secret
 metadata:
