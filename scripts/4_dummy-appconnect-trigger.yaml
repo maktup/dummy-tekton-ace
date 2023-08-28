@@ -1,6 +1,6 @@
 
 ###*********************************************************************************************************************###
-###** DETALLE: este Script instala todas las RECURSOS de TEKTON utilizados para la ejecucion en modalidad AUTOMATICA. **###
+###** DETALLE: este Script instala todas las RECURSOS de TEKTON utilizados para la ejecucion en modalidad AUTOMATICA ***###
 ###** a esto se les denomina TRIGGERs **********************************************************************************###
 ###*********************************************************************************************************************###
 
@@ -36,8 +36,8 @@ spec:
 
 ---
 
-# IMPORTANTE: SE DEBE 'PERSONALIZAR' EN EL 'PipelineRun', LOS CAMPOS CON LOS VALORES 'BASE' PARA LA AUTOMATIZACION. ESTOS SERAN LOS MISMOS
-# UTILIZADOS AL EJECUTAR EL COMANDO: [tkn pipeline start ...] y DEBEN SER 'PERSONALIZADOS' POR CADA 'MICROSERVICIO'.
+# IMPORTANTE: SE DEBE 'PERSONALIZAR' EN EL 'PipelineRun', LOS CAMPOS CON LOS VALORES 'BASE' PARA LA AUTOMATIZACION, ESTOS SERAN LOS MISMOS
+# UTILIZADOS AL EJECUTAR EL COMANDO: [tkn pipeline start] Y DEBEN SER 'PERSONALIZADOS' POR CADA 'MICROSERVICIO'
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerTemplate
 metadata:
@@ -158,7 +158,7 @@ spec:
 
 ---
 
-# EL 'SERVICE' SERA AUTOGENERADO SIEMPRE QUE SE DECLARE CON EL MISMO NOMBRE DEL: 'EventListener' CON EL: 'el-' POR DELANTE. 
+# EL 'SERVICE' SERA AUTOGENERADO SIEMPRE QUE SE DECLARE CON EL MISMO NOMBRE DEL: 'EventListener' CON EL: 'el-' POR DELANTE 
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
