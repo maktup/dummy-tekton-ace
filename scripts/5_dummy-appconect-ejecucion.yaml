@@ -1,7 +1,7 @@
 
 ###*******************************************************************************************************************###
 ###*** DETALLE: este Script se utiliza para iniciar la ejecución del flujo PIPELINE, en base a la PARAMETRIZACION ****###
-###*** definida. Esta PARAMETRIZACION debe ser PERSONALIZADA en base a cada escenario y entorno ejecutado. ***********###
+###*** definida, esta PARAMETRIZACION debe ser PERSONALIZADA en base a cada escenario y entorno ejecutado. ***********###
 ###*******************************************************************************************************************###
 
 apiVersion: tekton.dev/v1beta1
