@@ -3,9 +3,6 @@ CREATE COMPUTE MODULE consultarEmpleadosAll_ConsultarEmpleado
 
 	CREATE FUNCTION Main() RETURNS BOOLEAN	
 	BEGIN
-		-- CALL CopyMessageHeaders();
-		-- CALL CopyEntireMessage();
-		
 		-- DECLARACION DE 'VARIABLES':
 		DECLARE vIpApp      CHARACTER;
 		DECLARE vNombreApp  CHARACTER;
@@ -26,25 +23,37 @@ CREATE COMPUTE MODULE consultarEmpleadosAll_ConsultarEmpleado
 		DECLARE vRol2    CHARACTER;
 		DECLARE vIdDep2  INTEGER;
 		
+		DECLARE vId3     INTEGER;
+		DECLARE vNombre3 CHARACTER;
+		DECLARE vEdad3   INTEGER;
+		DECLARE vRol3    CHARACTER;
+		DECLARE vIdDep3  INTEGER;
+		
 		-- REGISTRAR DATOS 'RESPONSE':
 		SET vIpApp      = '1.1.1.2';
 		SET vNombreApp  = 'CSM-Legacy';
-		SET vUsuarioApp = 'MSAMAME 2024';
+		SET vUsuarioApp = 'MSAMAME';
 		SET vCodigoApp  = '1';
 		SET vCodigoHttp = '200';
 		SET vMensajeApp = 'Consulta Exitosa';
 		
 		SET vId1     = 001;
-		SET vNombre1 = 'CATHERINE COTRINA2';
+		SET vNombre1 = 'CESAR GUERRA';
 		SET vEdad1   = 40;
-		SET vRol1    = 'ARQUITECTA';
+		SET vRol1    = 'ARQUITECT0';
 		SET vIdDep1  = 1; 
 		
 		SET vId2     = 002;
 		SET vNombre2 = 'MILKO SAMAMÉ';
-		SET vEdad2   = 40;
+		SET vEdad2   = 45;
 		SET vRol2    = 'PROGRAMADOR';
 		SET vIdDep2  = 2; 
+		
+		SET vId3     = 003;
+		SET vNombre3 = 'MARIO VILLACORTA';
+		SET vEdad3   = 38;
+		SET vRol3    = 'PROGRAMADOR';
+		SET vIdDep3  = 3; 
  	 		
 		CREATE LASTCHILD OF OutputRoot DOMAIN( 'JSON' ); 
 		SET OutputRoot.JSON.Data.auditoria.ipApp      = vIpApp;  
@@ -66,7 +75,13 @@ CREATE COMPUTE MODULE consultarEmpleadosAll_ConsultarEmpleado
 		SET OutputRoot.JSON.Data.listaEmpleados.item[2].nombre = vNombre2;
 		SET OutputRoot.JSON.Data.listaEmpleados.item[2].edad   = vEdad2;
 		SET OutputRoot.JSON.Data.listaEmpleados.item[2].rol    = vRol2;
-		SET OutputRoot.JSON.Data.listaEmpleados.item[2].idDep  = vIdDep2;		
+		SET OutputRoot.JSON.Data.listaEmpleados.item[2].idDep  = vIdDep2;
+		
+		SET OutputRoot.JSON.Data.listaEmpleados.item[3].id     = vId3; 
+		SET OutputRoot.JSON.Data.listaEmpleados.item[3].nombre = vNombre3;
+		SET OutputRoot.JSON.Data.listaEmpleados.item[3].edad   = vEdad3;
+		SET OutputRoot.JSON.Data.listaEmpleados.item[3].rol    = vRol3;
+		SET OutputRoot.JSON.Data.listaEmpleados.item[3].idDep  = vIdDep3;
  
 		RETURN TRUE;
 	END;
