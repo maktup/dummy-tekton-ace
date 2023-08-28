@@ -75,7 +75,7 @@ spec:
     - name: noProxy
       default: ''
       type: string
-      description: "GIT NO-PROXY: OPTAR POR NO ENVIAR SOLICITUDES 'HTTP/HTTPS' DE PROXY"
+      description: "GIT NO-PROXY: OPTAR POR NO ENVIAR SOLICITUDES 'HTTP, HTTPS' DE PROXY"
  
     - name: verbose
       default: 'true'
@@ -118,7 +118,7 @@ spec:
         limpiarDirectorioCompartido(){
         
           #ELIMINAR CUALQUIER CONTENIDO EXISTENTE DEL DIRECTORIO COMPARTIDO.
-          #NO SOLO "RM -RF $CHECKOUT DIR" PORQUE $CHECKOUT DIR PODRIA SER "/" O LA RAIZ DE UN VOLUMEN MONTADO.
+          #NO SOLO 'RM -RF $CHECKOUT DIR' PORQUE $CHECKOUT DIR PODRIA SER '/' O LA RAIZ DE UN VOLUMEN MONTADO.
           if [[ -d "$CHECKOUT_DIR" ]] ; then
             #ELIMINAR ARCHIVOS Y DIRECTORIOS 'NO OCULTOS'
             rm -rf "$CHECKOUT_DIR"/*
@@ -135,7 +135,7 @@ spec:
            limpiarDirectorioCompartido
         fi
         
-        #VALIDACION SI LA CADENA/PARAMETRO ESTAN VACIOS: 
+        #VALIDACION SI LA CADENA O PARAMETRO ESTAN VACIOS: 
         test -z "$(params.httpProxy)"  || export HTTP_PROXY=$(params.httpProxy)
         test -z "$(params.httpsProxy)" || export HTTPS_PROXY=$(params.httpsProxy)
         test -z "$(params.noProxy)"    || export NO_PROXY=$(params.noProxy)
@@ -226,7 +226,7 @@ spec:
       script: |
         #!/bin/bash
 
-        #'SALIR EN CASO DE ERROR', si un comando dentro del SCRIPT genera un ERROR, el SCRIPT se detendra inmediatamente Y NO continuara ejecutando los COMANDOS restantes.
+        #'SALIR EN CASO DE ERROR', si un comando dentro del SCRIPT genera un ERROR, el SCRIPT se detendra inmediatamente y NO continuara ejecutando los COMANDOS restantes.
         set -e
 
         #DECLARACION VARIABLES: 
@@ -257,7 +257,7 @@ spec:
       script: |
         #!/bin/bash
         
-        #'SALIR EN CASO DE ERROR', si un comando dentro del SCRIPT genera un ERROR, el SCRIPT se detendrA inmediatamente Y NO continuarA ejecutando los COMANDOS restantes.
+        #'SALIR EN CASO DE ERROR', si un comando dentro del SCRIPT genera un ERROR, el SCRIPT se detendrA inmediatamente y NO continuarA ejecutando los COMANDOS restantes.
         set -e
 
         #DECLARACION VARIABLES:        
@@ -308,7 +308,7 @@ spec:
         cd $RUTA_COMPARTIDA_BASE
         echo "- EJECUTANDO: ==> [pwd]"
         pwd
-        #EXISTEN 2 FORMAS PARA GENERAR UN COMPILADO .BAR POR MEDIO DE LOS COMANDOS ['bmint package' Y 'mqsipackagebar']:
+        #EXISTEN 2 FORMAS PARA GENERAR UN COMPILADO .BAR POR MEDIO DE LOS COMANDOS ['bmint package' y 'mqsipackagebar']:
         #MODALIDAD#1: 
         COMANDO="ibmint package --input-path $RUTA_COMPARTIDA_BASE/$(params.ace-project-name) --output-bar-file $RUTA_COMPARTIDA_BASE/bars/$COMPILADO_BAR"
         #MODALIDAD#2: 
@@ -319,7 +319,6 @@ spec:
 
         echo "9. ====> ESPERANDO LA GENERACION DEL COMPILADO '.BAR' (20s)" 
         sleep 15
-        #ls -lstrha $RUTA_COMPARTIDA_BASE/bars
         ls -lstrha $RUTA_COMPARTIDA_BASE/bars/$COMPILADO_BAR
         echo ""
  
@@ -403,7 +402,7 @@ spec:
         RUTA_DIRECTORIO_BAR="/$RUTA_COMPARTIDA_BASE/bars"
         VERSION_ACE12_IMAGE="ace-server:latest"
         
-        #'SALIR EN CASO DE ERROR', si un comando dentro del SCRIPT genera un ERROR, el SCRIPT se detendrA inmediatamente Y NO continuarA ejecutando los COMANDOS restantes.
+        #'SALIR EN CASO DE ERROR', si un comando dentro del SCRIPT genera un ERROR, el SCRIPT se detendrA inmediatamente Y NO continuara ejecutando los COMANDOS restantes.
         set -e
 
         echo "1. ====> UBICACION ACTUAL DENTRO 'DEL CONTENEDOR':"
