@@ -1,7 +1,7 @@
 
 ###*******************************************************************************************************************###
-###*** DETALLE: este Script instala todas las TASK que formarán parte de la AUTOMATIZACIÓN. Este es el CORAZÓN *******###
-###*** de la AUTOMATIZACIÓN, ya que aquí se implementa toda la LÓGICA del FLUJO. *************************************###
+###*** DETALLE: este Script instala todas las TASK que formarAn parte de la AUTOMATIZACION. Este es el CORAZON *******###
+###*** de la AUTOMATIZACION, ya que aqui se implementa toda la LOGICA del FLUJO. *************************************###
 ###*******************************************************************************************************************###
 
 apiVersion: tekton.dev/v1beta1
@@ -10,7 +10,7 @@ metadata:
   name: ace-obtain-repository-sources
   namespace: dummy-tekton-appconnect
 spec:
-  description: "ESTAS TAREAS SON 'TASK' DE 'GIT' PARA TRABAJAR CON REPOSITORIOS UTILIZADOS POR OTRAS 'TASK' EN EL 'PIPELINE'. LA TASK 'GIT-CLONE-HOME' CLONARÁ UN REPOSITORIO DE LA URL PROPORCIONADA EN EL 'NAMESPACE' DE SALIDA. EL REPOSITORIO SE CLONARÁ EN LA RAÍZ DEL NAMESPACE DE TRABAJO. SE PUEDE CLONAR EN UN SUBDIRECTORIO CONFIGURANDO EL PARÁMETRO DEL SUBDIRECTORIO DE ESTA TAREA. ESTA TAREA TAMBIÉN ADMITE PAGOS ESCASOS"
+  description: "ESTAS TAREAS SON 'TASK' DE 'GIT' PARA TRABAJAR CON REPOSITORIOS UTILIZADOS POR OTRAS 'TASK' EN EL 'PIPELINE'. LA TASK 'GIT-CLONE-HOME' CLONARA UN REPOSITORIO DE LA URL PROPORCIONADA EN EL 'NAMESPACE' DE SALIDA. EL REPOSITORIO SE CLONARA EN LA RAIZ DEL NAMESPACE DE TRABAJO. SE PUEDE CLONAR EN UN SUBDIRECTORIO CONFIGURANDO EL PARAMETRO DEL SUBDIRECTORIO DE ESTA TAREA. ESTA TAREA TAMBIÉN ADMITE PAGOS ESCASOS"
   params:
     - name: url
       default: ''
@@ -20,27 +20,27 @@ spec:
     - name: revision
       default: ''
       type: string
-      description: "REVISIÓN DE GIT PARA CHECKOUT (BRANCH, TAG, SHA, REF...)"
+      description: "REVISION DE GIT PARA CHECKOUT (BRANCH, TAG, SHA, REF...)"
 
     - name: refspec
       default: ''
       type: string
-      description: "(OPCIONAL) GIT 'REFSPEC' PARA OBTENER ANTES DE VERIFICAR LA REVISIÓN"
+      description: "(OPCIONAL) GIT 'REFSPEC' PARA OBTENER ANTES DE VERIFICAR LA REVISION"
 
     - name: submodules
       default: 'true'
       type: string
-      description: "DEFINE SI EL RECURSO DEBE INICIALIZARSE & BUSCAR LOS SUBMÓDULOS"
+      description: "DEFINE SI EL RECURSO DEBE INICIALIZARSE Y BUSCAR LOS SUBMODULOS"
  
     - name: depth
       default: '1'
       type: string
-      description: "REALIZA UNA CLONACIÓN SUPERFICIAL EN LA QUE SOLO SE RECUPERARÁN LAS CONFIRMACIONES MÁS RECIENTES"
+      description: "REALIZA UNA CLONACION SUPERFICIAL EN LA QUE SOLO SE RECUPERARAN LAS CONFIRMACIONES MAS RECIENTES"
 
     - name: sslVerify
       default: 'true'
       type: string
-      description: "DEFINE SI HTTP.SSLVERIFY DEBE ESTABLECERSE EN VERDADERO O FALSO EN LA CONFIGURACIÓN GLOBAL DE GIT"
+      description: "DEFINE SI HTTP.SSLVERIFY DEBE ESTABLECERSE EN VERDADERO O FALSO EN LA CONFIGURACION GLOBAL DE GIT"
 
     - name: subdirectory
       default: ''
@@ -55,12 +55,12 @@ spec:
     - name: sparseCheckoutDirectories
       default: ''
       type: string
-      description: "DEFINE QUÉ PATRONES DE DIRECTORIOS COINCIDIR O EXCLUIR AL REALIZAR UNA COMPROBACIÓN ESCASA"
+      description: "DEFINE QUÉ PATRONES DE DIRECTORIOS COINCIDIR O EXCLUIR AL REALIZAR UNA COMPROBACION ESCASA"
  
     - name: deleteExisting
       default: 'true'
       type: string
-      description: "LIMPIE EL CONTENIDO DEL DIRECTORIO DE DESTINO DEL REPOSITORIO (SI YA EXISTE), ANTES DE INTENTAR CLONAR EL REPOSITORIO ALLÍ"
+      description: "LIMPIE EL CONTENIDO DEL DIRECTORIO DE DESTINO DEL REPOSITORIO (SI YA EXISTE), ANTES DE INTENTAR CLONAR EL REPOSITORIO ALLI"
  
     - name: httpProxy
       default: ''
@@ -80,12 +80,12 @@ spec:
     - name: verbose
       default: 'true'
       type: string
-      description: "REGISTRAR LOS COMANDOS UTILIZADOS DURANTE LA EJECUCIÓN"
+      description: "REGISTRAR LOS COMANDOS UTILIZADOS DURANTE LA EJECUCION"
  
     - name: gitInitImage
       default: "registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:afc5d3f9efe26c7042635d43b8ffd09d67936e3d0b6b901dc08a33e20313d361"
       type: string
-      description: "IMAGEN UTILIZADA DONDE ESTÁ EL BINARIO: GIT-INIT"
+      description: "IMAGEN UTILIZADA DONDE ESTA EL BINARIO: GIT-INIT"
 
   results:
     - name: commit
@@ -118,15 +118,15 @@ spec:
         limpiarDirectorioCompartido(){
         
           #ELIMINAR CUALQUIER CONTENIDO EXISTENTE DEL DIRECTORIO COMPARTIDO.
-          #NO SOLO "RM -RF $CHECKOUT DIR" PORQUE $CHECKOUT DIR PODRÍA SER "/" O LA RAÍZ DE UN VOLUMEN MONTADO.
+          #NO SOLO "RM -RF $CHECKOUT DIR" PORQUE $CHECKOUT DIR PODRIA SER "/" O LA RAIZ DE UN VOLUMEN MONTADO.
           if [[ -d "$CHECKOUT_DIR" ]] ; then
-            #ELIMINAR ARCHIVOS & DIRECTORIOS 'NO OCULTOS'
+            #ELIMINAR ARCHIVOS Y DIRECTORIOS 'NO OCULTOS'
             rm -rf "$CHECKOUT_DIR"/*
             
-            #ELIMINAR ARCHIVOS & DIRECTORIOS QUE COMIENCEN CON '.' PERO EXCLUYENDO '..'
+            #ELIMINAR ARCHIVOS Y DIRECTORIOS QUE COMIENCEN CON '.' PERO EXCLUYENDO '..'
             rm -rf "$CHECKOUT_DIR"/.[!.]*
             
-            #ELIMINAR ARCHIVOS & DIRECTORIOS QUE COMIENCEN CON '..' MÁS CUALQUIER OTRO CARÁCTER 
+            #ELIMINAR ARCHIVOS Y DIRECTORIOS QUE COMIENCEN CON '..' MAS CUALQUIER OTRO CARACTER 
             rm -rf "$CHECKOUT_DIR"/..?*
           fi
         }
@@ -135,12 +135,12 @@ spec:
            limpiarDirectorioCompartido
         fi
         
-        #VALIDACIÓN SI LA CADENA/PARAMETRO ESTÁN VACIOS: 
+        #VALIDACION SI LA CADENA/PARAMETRO ESTAN VACIOS: 
         test -z "$(params.httpProxy)"  || export HTTP_PROXY=$(params.httpProxy)
         test -z "$(params.httpsProxy)" || export HTTPS_PROXY=$(params.httpsProxy)
         test -z "$(params.noProxy)"    || export NO_PROXY=$(params.noProxy)
         
-        echo "2. ====> UBICACIÓN ACTUAL DENTRO DEL CONTENEDOR:"
+        echo "2. ====> UBICACION ACTUAL DENTRO DEL CONTENEDOR:"
         pwd
         ls -lstrha
         echo ""
@@ -187,7 +187,7 @@ spec:
            exit $EXIT_CODE
         fi
 
-        #IMPORTANTE NO AGREGAR UNA NUEVA LÍNEA FINAL AL RESULTADO:
+        #IMPORTANTE NO AGREGAR UNA NUEVA LINEA FINAL AL RESULTADO:
         echo "results.commit.path: [$(results.commit.path)]"
         echo -n "$RESULT_SHA"   > $(results.commit.path)
         
@@ -226,14 +226,14 @@ spec:
       script: |
         #!/bin/bash
 
-        #'SALIR EN CASO DE ERROR', si un comando dentro del SCRIPT genera un ERROR, el SCRIPT se detendrá inmediatamente & NO continuará ejecutando los COMANDOS restantes.
+        #'SALIR EN CASO DE ERROR', si un comando dentro del SCRIPT genera un ERROR, el SCRIPT se detendra inmediatamente Y NO continuara ejecutando los COMANDOS restantes.
         set -e
 
         #DECLARACION VARIABLES: 
         RUTA_COMPARTIDA_BASE="/workspace/compartido"
         RUTA_DIRECTORIO_BAR="/$RUTA_COMPARTIDA_BASE/bars"
 
-        echo "1. ====> UBICACIÓN ACTUAL DENTRO 'DEL CONTENEDOR':"
+        echo "1. ====> UBICACION ACTUAL DENTRO 'DEL CONTENEDOR':"
         pwd
         ls -lstrha
         echo ""
@@ -257,7 +257,7 @@ spec:
       script: |
         #!/bin/bash
         
-        #'SALIR EN CASO DE ERROR', si un comando dentro del SCRIPT genera un ERROR, el SCRIPT se detendrá inmediatamente & NO continuará ejecutando los COMANDOS restantes.
+        #'SALIR EN CASO DE ERROR', si un comando dentro del SCRIPT genera un ERROR, el SCRIPT se detendrA inmediatamente Y NO continuarA ejecutando los COMANDOS restantes.
         set -e
 
         #DECLARACION VARIABLES:        
@@ -267,7 +267,7 @@ spec:
         RUTA_ARCHIVO_BAR="$RUTA_DIRECTORIO_BAR/$COMPILADO_BAR"
         RUTA_CONFIG_ACE12="/opt/ibm/ace-12/server/bin/"
  
-        echo "1. ====> UBICACIÓN ACTUAL DENTRO 'DEL CONTENEDOR':"
+        echo "1. ====> UBICACION ACTUAL DENTRO 'DEL CONTENEDOR':"
         pwd
         ls -lstrha
         echo ""
@@ -284,7 +284,7 @@ spec:
         ls -lstrha $RUTA_DIRECTORIO_BAR
         echo ""
  
-        echo "5. ====> VALIDANDO CONFIGURACIÓN EL ENTORNO [$RUTA_CONFIG_ACE12]:"
+        echo "5. ====> VALIDANDO CONFIGURACION EL ENTORNO [$RUTA_CONFIG_ACE12]:"
         pwd
         ls -lstrha $RUTA_CONFIG_ACE12
         echo ""
@@ -308,7 +308,7 @@ spec:
         cd $RUTA_COMPARTIDA_BASE
         echo "- EJECUTANDO: ==> [pwd]"
         pwd
-        #EXISTEN 2 FORMAS PARA GENERAR UN COMPILADO .BAR POR MEDIO DE LOS COMANDOS ['bmint package' & 'mqsipackagebar']:
+        #EXISTEN 2 FORMAS PARA GENERAR UN COMPILADO .BAR POR MEDIO DE LOS COMANDOS ['bmint package' Y 'mqsipackagebar']:
         #MODALIDAD#1: 
         COMANDO="ibmint package --input-path $RUTA_COMPARTIDA_BASE/$(params.ace-project-name) --output-bar-file $RUTA_COMPARTIDA_BASE/bars/$COMPILADO_BAR"
         #MODALIDAD#2: 
@@ -317,7 +317,7 @@ spec:
         eval $COMANDO
         echo ""
 
-        echo "9. ====> ESPERANDO LA GENERACIÓN DEL COMPILADO '.BAR' (20s)" 
+        echo "9. ====> ESPERANDO LA GENERACION DEL COMPILADO '.BAR' (20s)" 
         sleep 15
         #ls -lstrha $RUTA_COMPARTIDA_BASE/bars
         ls -lstrha $RUTA_COMPARTIDA_BASE/bars/$COMPILADO_BAR
@@ -350,7 +350,7 @@ spec:
       description: "NAMESPACE PARA CREAR EL: 'INTEGRATION-SERVER'"
  
     - name: ace-server-version
-      description: "VERSIÓN DE: APP-CONNECT PARA USAR"
+      description: "VERSION DE: APP-CONNECT PARA USAR"
       
     - name: ace-server-license
       description: "ID DE LA LICENCIA A UTILIZAR PARA EL: INTEGRATION-SERVER" 
@@ -365,30 +365,30 @@ spec:
       description: "CARPETA QUE CONTIENE UN ARCHIVO: 'MyMicroserviceACE.bar' PARA IMPLEMENTAR"
        
     - name: integration-tag
-      description: "DOCKER TAG PARA USAR PARA LA IMAGEN DE INTEGRACIÓN" 
+      description: "DOCKER TAG PARA USAR PARA LA IMAGEN DE INTEGRACION" 
  
     - name: deployment-server
       description: "OPCION DE DESPLIEGUE (INTEGRATION, RUNTIME) SERVER"
  
     - name: cpu-limit
       default: 400m
-      description: "MÁXIMO DE 'CPU' PERMITIDO EN EL SERVER." 
+      description: "MAXIMO DE 'CPU' PERMITIDO EN EL SERVER." 
       
     - name: cpu-request
       default: 300m
-      description: "MÍNIMO DE 'CPU' PERMITIDO EN EL SERVER." 
+      description: "MINIMO DE 'CPU' PERMITIDO EN EL SERVER." 
       
     - name: memory-limit
       default: 400Mi
-      description: "MÁXIMO DE 'MEMORY' PERMITIDO EN EL SERVER." 
+      description: "MAXIMO DE 'MEMORY' PERMITIDO EN EL SERVER." 
       
     - name: memory-request
       default: 300Mi
-      description: "MÍNIMO DE 'MEMORY' PERMITIDO EN EL SERVER." 
+      description: "MINIMO DE 'MEMORY' PERMITIDO EN EL SERVER." 
       
     - name: replicas
       default: 1
-      description: "NÚMERO DE REPLICAS PARA LA CREACIÓN DE INSTANCIAS POR 'DEFAULT'." 
+      description: "NÚMERO DE REPLICAS PARA LA CREACION DE INSTANCIAS POR 'DEFAULT'." 
       
   steps:
     #PASO#1: 
@@ -403,10 +403,10 @@ spec:
         RUTA_DIRECTORIO_BAR="/$RUTA_COMPARTIDA_BASE/bars"
         VERSION_ACE12_IMAGE="ace-server:latest"
         
-        #'SALIR EN CASO DE ERROR', si un comando dentro del SCRIPT genera un ERROR, el SCRIPT se detendrá inmediatamente & NO continuará ejecutando los COMANDOS restantes.
+        #'SALIR EN CASO DE ERROR', si un comando dentro del SCRIPT genera un ERROR, el SCRIPT se detendrA inmediatamente Y NO continuarA ejecutando los COMANDOS restantes.
         set -e
 
-        echo "1. ====> UBICACIÓN ACTUAL DENTRO 'DEL CONTENEDOR':"
+        echo "1. ====> UBICACION ACTUAL DENTRO 'DEL CONTENEDOR':"
         pwd
         ls -lstrha
         echo ""
@@ -418,7 +418,7 @@ spec:
         oc tag $(params.ace-server-base-image) $VERSION_ACE12_IMAGE -n $(params.ace-namespace)
         echo ""
  
-        echo "3. ====> ELIMINANDO 'IMAGESTREAM MICROSERVICIO' DE APP-CONNECT [YAML], EXISTENTE:"        
+        echo "3. ====> ELIMINANDO 'IMAGESTREAM MICROSERVICIO' DE APP-CONNECT [YAML], EXISTENTE:"
         NOMBRE="$(params.integration-name)"
         COMANDO="oc get ImageStream $NOMBRE -n $(params.ace-namespace)"
         
@@ -427,7 +427,7 @@ spec:
             oc delete ImageStream $NOMBRE -n $(params.ace-namespace) --force --grace-period 0 
             echo "- El RECURSO ==> [ImageStream: $NOMBRE] HA SIDO 'ELIMINADO' EXITOSAMENTE."
             echo ""
-            echo "3.1. ====> ESPERANDO PARA LA ELIMINACIÓN DEL 'IMAGESTREAM' (10s)" 
+            echo "3.1. ====> ESPERANDO PARA LA ELIMINACION DEL 'IMAGESTREAM' (10s)" 
             sleep 10
             echo ""
         else
@@ -460,7 +460,7 @@ spec:
            oc delete BuildConfig $NOMBRE -n $(params.ace-namespace) --force --grace-period 0 
            echo "- El RECURSO ==> [BuildConfig: $NOMBRE] HA SIDO 'ELIMINADO' EXITOSAMENTE."
            echo ""
-           echo "6.1. ====> ESPERANDO PARA LA 'ELIMINACIÓN' DEL 'BUILDCONFIG' (10s)" 
+           echo "6.1. ====> ESPERANDO PARA LA 'ELIMINACION' DEL 'BUILDCONFIG' (10s)" 
            sleep 10
            echo ""
         else
@@ -468,7 +468,7 @@ spec:
         fi
         echo ""
         
-        echo "7. ====> CREANDO LA 'CONFIGURACIÓN' PARA LA 'COMPILACIÓN' DE LA IMAGEN: 'ACE12' (BUILDCONFIGs)"
+        echo "7. ====> CREANDO LA 'CONFIGURACION' PARA LA 'COMPILACION' DE LA IMAGEN: 'ACE12' (BUILDCONFIGs)"
         echo "- NOMBRE: [$(params.integration-name)]"
         echo "- NAMESPACE: [$(params.ace-namespace)]"
         echo "- LABEL: [$(params.integration-name)]"
@@ -526,8 +526,8 @@ spec:
         oc get ImageStreamTag -n $(params.ace-namespace)
         echo ""
 
-        echo "10. ====> INICIANDO LA CREACIÓN DE LA 'IMAGEN MICROSERVICIO' EN BASE AL '.BAR':"
-        echo "- MOVIENDO A UBICACIÓN DEL 'BAR' (COMPILADO): [$(params.bar-file-location)], AL DIRECTORIO BASE."
+        echo "10. ====> INICIANDO LA CREACION DE LA 'IMAGEN MICROSERVICIO' EN BASE AL '.BAR':"
+        echo "- MOVIENDO A UBICACION DEL 'BAR' (COMPILADO): [$(params.bar-file-location)], AL DIRECTORIO BASE."
         cd $(params.bar-file-location)
         pwd
         ls -lstrha
@@ -560,7 +560,7 @@ spec:
                oc delete IntegrationServer $NOMBRE -n $(params.ace-namespace) --force --grace-period 0 
                echo "- El RECURSO ==> [IntegrationServer: $NOMBRE] HA SIDO 'ELIMINADO' EXITOSAMENTE."
                echo ""
-               echo "13.1. ====> ESPERANDO PARA LA ELIMINACIÓN DEL 'INTEGRATION-SERVER' (15s)" 
+               echo "13.1. ====> ESPERANDO PARA LA ELIMINACION DEL 'INTEGRATION-SERVER' (15s)" 
                sleep 15
                echo ""
            else
@@ -648,7 +648,7 @@ spec:
                  oc delete IntegrationRuntime $NOMBRE -n $(params.ace-namespace) --force --grace-period 0
                  echo "- El RECURSO ==> [IntegrationRuntime: $NOMBRE] HA SIDO 'ELIMINADO' EXITOSAMENTE."
                  echo ""
-                 echo "18.1. ====> ESPERANDO PARA LA ELIMINACIÓN DEL 'INTEGRATION-RUNTIME' (15s)" 
+                 echo "18.1. ====> ESPERANDO PARA LA ELIMINACION DEL 'INTEGRATION-RUNTIME' (15s)" 
                  sleep 15
                  echo ""
              else
@@ -711,21 +711,21 @@ spec:
         
         ######################## [CONDICION#1] ########################
         if [ "$OPCION_DEPLOYMENT" -eq 1 ]; then
-             echo "- LA OPCIÓN DE 'DEPLOYMENT' ENVIADO ES #1."
+             echo "- LA OPCION DE 'DEPLOYMENT' ENVIADO ES #1."
              echo ""
 
              proceso_integration_server "$OPCION_DEPLOYMENT"
            
         ######################## [CONDICION#2] ########################
         elif [ "$OPCION_DEPLOYMENT" -eq 2 ]; then
-               echo "- LA OPCIÓN DE 'DEPLOYMENT' ENVIADO ES #2."
+               echo "- LA OPCION DE 'DEPLOYMENT' ENVIADO ES #2."
                echo ""
              
                proceso_integration_runtime "$OPCION_DEPLOYMENT"
         
         ######################## [CONDICION#3] ########################
         else
-            echo "- LA OPCIÓN DE 'DEPLOYMENT' ENVIADO ES #3."
+            echo "- LA OPCION DE 'DEPLOYMENT' ENVIADO ES #3."
             echo ""
              
             proceso_integration_server  "$OPCION_DEPLOYMENT"
