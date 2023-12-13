@@ -49,7 +49,6 @@ spec:
     persistentVolumeClaim:
       claimName: source-pvc-pipe
 
-
 ############################################################################################################ 
 ## IMPORTANTE: Otra forma es ejecutando los PARÁMETROS en base a COMANDOs del CLIENTE TEKTON como este:  
 ## tkn pipeline start pipeline-build-and-deploy -w name=workspace-pipeline,claimName=source-pvc-pipe -p nombre-integration-server=csm-microservicio -p nombre-namespace-appconnect=dummy-tekton-appconnect -p url-repositorio-git=https://github.com/maktup/dummy-tekton-ace.git -p nombre-subdirectorio-git=dummy_csm_microservice -p nombre-repositorio-git=dummy-tekton-ace -p branch-repositorio-git=main -p nombre-proyecto-appconnect=dummy_csm_microservice -p version-image-appconnect="12.0.9.0-r3" -p licencia-image-appconnect="L-SEWB-GH63KR" -p ruta-image-appconnect="docker.io/maktup/ibm-appconnect-12:latest" -p tipo-licencia-appconnect="CloudPakForIntegrationNonProduction" -p tipo-despliegue-servidor="3" -n dummy-tekton-appconnect
